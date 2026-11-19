@@ -159,7 +159,7 @@ const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','De
 const fmt=n=>{const d=new Date(n*864e5);return['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getUTCDay()]+' '+MON[d.getUTCMonth()]+' '+d.getUTCDate()};
 const fmtS=n=>{const d=new Date(n*864e5);return MON[d.getUTCMonth()]+' '+d.getUTCDate()};
 const SD=()=>dn(S.surgery);
-const CAPL=' (per Eddie, confirm with surgeon)';
+const CAPL=' (your number, confirm with surgeon)';
 const REPAIR={robolap:'Robotic-assisted laparoscopic',open:'Open',unknown:'Not confirmed'};
 
 /* ================= program content ================= */
@@ -410,7 +410,7 @@ function renderHome(){const n=TD(),s=SD(),p=phaseOn(n),d=s-n;const L=latestCheck
  $('#t-home').innerHTML=(L&&L.e.level==='red'&&(n-dn(L.date))<=1?redBanner(L.e,L.date):'')+
  '<div class="grid g2" style="margin-bottom:14px">'+
   '<div class="stat"><div class="l">'+(d>0?'Countdown':'Recovery')+'</div>'+cd+'</div>'+
-  '<div class="stat" id="phasecard"><div class="l">Current phase</div><div class="v" style="font-size:20px">'+esc(p.name)+'</div><div class="s">'+esc(rirFor(n))+(p.id==='r0'||p.id==='r1'?' · <b class="warn">Lift cap ≤'+S.liftCap+' lb</b> <span class="note">per Eddie, confirm with surgeon</span>':'')+'</div><div class="bar"><i style="width:'+Math.min(100,Math.max(4,Math.round((n-p.from+1)/(p.to-p.from+1)*100)))+'%"></i></div></div>'+
+  '<div class="stat" id="phasecard"><div class="l">Current phase</div><div class="v" style="font-size:20px">'+esc(p.name)+'</div><div class="s">'+esc(rirFor(n))+(p.id==='r0'||p.id==='r1'?' · <b class="warn">Lift cap ≤'+S.liftCap+' lb</b> <span class="note">your number, confirm with surgeon</span>':'')+'</div><div class="bar"><i style="width:'+Math.min(100,Math.max(4,Math.round((n-p.from+1)/(p.to-p.from+1)*100)))+'%"></i></div></div>'+
  '</div>'+
  '<div class="card day"><div class="row sp"><h2 style="margin:0">Today · '+fmt(n)+'</h2><span class="pill blue">'+esc(p.short)+'</span></div><div style="margin-top:6px;font-weight:700">'+esc(sess.title)+'</div><div class="note">'+esc(sess.min)+' · '+sess.items.length+' items'+(done?' · <b class="pos">done ✓</b>':'')+'</div>'+
  '<div class="row" style="margin-top:10px"><button class="btn primary" data-start="'+dowOf(n)+'">'+(done?'Log more':'Start session')+'</button><button class="btn" data-go="program">Program</button>'+(ckToday?'':'<button class="btn" data-go="check">Daily check-in</button>')+'</div></div>'+
@@ -544,7 +544,7 @@ function renderTimeline(){const n=TD(),s=SD();const P=phases();
  '<label class="f">Surgery date<input type="date" name="surgery" value="'+S.surgery+'"></label>'+
  '<label class="f">Program start<input type="date" name="start" value="'+S.start+'"></label>'+
  '<label class="f">Repair type<select name="repair">'+[['robolap','Robotic-assisted laparoscopic'],['open','Open'],['unknown','Not confirmed']].map(o=>'<option value="'+o[0]+'" '+(S.repair===o[0]?'selected':'')+'>'+o[1]+'</option>').join('')+'</select></label>'+
- '<label class="f">Lift cap, weeks 0–4 (lb) <span class="mut">per Eddie, confirm with surgeon</span><input type="number" name="liftCap" value="'+S.liftCap+'"></label>'+
+ '<label class="f">Lift cap, weeks 0–4 (lb) <span class="mut">your number, confirm with surgeon</span><input type="number" name="liftCap" value="'+S.liftCap+'"></label>'+
  '<button class="btn primary wide" type="submit">Save settings</button></form>'+
  '<div class="row" style="margin-top:12px"><button class="btn sm" id="exjson">Export backup (JSON)</button><label class="btn sm" style="display:inline-flex;align-items:center">Import backup<input type="file" id="imjson" accept="application/json" style="display:none"></label><button class="btn sm" id="csv2">Export log CSV</button><button class="btn sm danger" id="reset">Reset all data</button></div>'+
  '<div class="banner" style="margin:10px 0 0" id="backupnote"><b>Extra safety copy.</b> Your log also syncs to the cloud backup above. A file backup is a second copy: tap <b>Export backup</b> now and then and keep the file (Files app, iCloud or Drive). <b>Import backup</b> restores it. Last backup: <b>'+(S.lastExport?fmt(dn(S.lastExport)):'never')+'</b>.</div></div>'+
