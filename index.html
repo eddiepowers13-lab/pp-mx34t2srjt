@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0f14">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Prehab">
+
+<title>Prehab & Rehab</title>
+<style>
+:root{--bg:#0b0f14;--bg2:#0f151c;--card:#141c25;--card2:#1a2430;--line:#243242;--tx:#e8eef5;--mu:#8fa0b2;--ac:#3ddc97;--ac2:#5b8cff;--am:#ffb454;--rd:#ff6b6b;--pu:#b388ff;--r:14px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,sans-serif}
+body{padding-bottom:84px}
+h1,h2,h3,h4{margin:0;line-height:1.2}h2{font-size:18px;margin-bottom:10px}h3{font-size:15px;margin-bottom:8px}
+a{color:var(--ac2)}
+header.top{position:sticky;top:0;z-index:30;background:rgba(11,15,20,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:17px;letter-spacing:.2px;flex:1;min-width:160px}
+.brand small{display:block;font-weight:500;color:var(--mu);font-size:11.5px}
+nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:40;background:rgba(15,21,28,.97);border-top:1px solid var(--line);display:flex;overflow-x:auto;padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:2px;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{flex:1 0 auto;min-width:58px;background:none;border:0;color:var(--mu);padding:6px 6px;border-radius:10px;font-weight:600;font-size:11px;line-height:1.1;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;position:relative}
+nav.tabs button span{font-size:19px;line-height:1}
+nav.tabs button.on{color:var(--ac);background:rgba(61,220,151,.1)}
+nav.tabs button .dot{position:absolute;top:3px;right:12px;width:9px;height:9px;border-radius:9px;background:var(--rd);display:none}
+nav.tabs button .dot.show{display:block}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.tab{display:none}.tab.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:14px}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;min-width:0}
+.stat .l{color:var(--mu);font-size:12px;text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+.stat .v{font-size:26px;font-weight:800;margin-top:2px;letter-spacing:-.5px}
+.stat .v small{font-size:13px;color:var(--mu);font-weight:600;margin-left:3px}
+.stat .s{color:var(--mu);font-size:12px;margin-top:2px}
+.pos{color:var(--ac)}.neg{color:var(--rd)}.warn{color:var(--am)}.mut{color:var(--mu)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row.sp{justify-content:space-between}
+.btn{background:var(--card2);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:9px 13px;font-weight:600;font-size:14px;font-family:inherit;cursor:pointer;min-height:40px}
+.btn.primary{background:var(--ac);color:#04140c;border-color:var(--ac)}
+.btn.danger{color:var(--rd);border-color:#4a2a30}
+.btn.sm{padding:5px 9px;min-height:30px;font-size:12.5px;border-radius:8px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--mu);font-weight:600;min-width:0}
+input,select,textarea{background:var(--bg2);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:15px;font-family:inherit;min-height:40px;width:100%;min-width:0}
+input:focus,select:focus{outline:2px solid rgba(91,140,255,.55);border-color:var(--ac2)}
+input[type=checkbox]{width:22px;height:22px;min-height:0;accent-color:var(--rd);padding:0;flex:0 0 auto}
+.form{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+.form .wide{grid-column:1/-1}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:700;background:var(--card2);color:var(--mu);border:1px solid var(--line)}
+.pill.ok{color:var(--ac);background:rgba(61,220,151,.12);border-color:rgba(61,220,151,.3)}
+.pill.warn{color:var(--am);background:rgba(255,180,84,.12);border-color:rgba(255,180,84,.3)}
+.pill.bad{color:var(--rd);background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.3)}
+.pill.blue{color:var(--ac2);background:rgba(91,140,255,.12);border-color:rgba(91,140,255,.3)}
+.note{font-size:12.5px;color:var(--mu)}
+.banner{border:1px solid rgba(255,180,84,.35);background:rgba(255,180,84,.08);color:#ffd9a3;border-radius:12px;padding:10px 12px;font-size:13px;margin-bottom:14px}
+.banner.info{border-color:rgba(91,140,255,.35);background:rgba(91,140,255,.08);color:#c6d6ff}
+.banner.red{border-color:rgba(255,107,107,.6);background:rgba(255,107,107,.13);color:#ffd0d0}
+.banner.red b.big{display:block;font-size:17px;color:#fff;margin-bottom:4px}
+.banner.ok{border-color:rgba(61,220,151,.35);background:rgba(61,220,151,.08);color:#bff3da}
+.bar{height:8px;background:var(--bg2);border-radius:9px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac2),var(--ac));border-radius:9px}
+.seg{display:flex;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px;overflow-x:auto;scrollbar-width:none}
+.seg button{flex:1 0 auto;background:none;border:0;color:var(--mu);padding:6px 9px;border-radius:8px;font-weight:600;font-size:13px;font-family:inherit;cursor:pointer;min-height:34px}
+.seg button.on{background:var(--card2);color:var(--tx)}
+.seg button.today{box-shadow:inset 0 -2px 0 var(--ac)}
+.day{border-left:4px solid var(--ac2)}
+.day ul{list-style:none;margin:8px 0 0;padding:0}
+.day li{padding:7px 0;border-bottom:1px dashed #1f2c3a;font-size:14px}
+.day li .rx{color:var(--ac);font-weight:700;white-space:nowrap}.day li.cardio .rx{white-space:normal;text-align:right;max-width:58%}
+.day li .cue{display:block;color:var(--mu);font-size:12.5px;margin-top:2px}
+.day li.core .nm::before{content:"◎ ";color:var(--pu)}
+.day li.cardio .nm::before{content:"♥ ";color:var(--rd)}
+.ex{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+.ex h4{font-size:15.5px}
+.srow{display:grid;grid-template-columns:30px 1fr 1fr 46px;gap:8px;align-items:center;margin-top:8px}
+.srow .sn{color:var(--mu);font-weight:700;text-align:center}
+.srow .btn{padding:0;height:40px}
+.srow.logged input{opacity:.6}.srow.logged .btn{background:var(--ac);color:#04140c;border-color:var(--ac)}
+.sug{font-size:12.5px;margin-top:6px;color:var(--mu)}.sug b{color:var(--ac)}
+#toast{position:fixed;left:50%;top:calc(70px + env(safe-area-inset-top));transform:translateX(-50%);background:#1d2b3a;border:1px solid var(--line);padding:10px 16px;border-radius:12px;z-index:80;font-weight:600;opacity:0;pointer-events:none;transition:.25s;max-width:90vw;text-align:center}
+#toast.show{opacity:1}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--bg2);border:1px solid var(--line);border-radius:99px;padding:5px 11px;font-size:12.5px;color:var(--mu)}
+.cd{display:flex;align-items:baseline;gap:6px}.cd .n{font-size:46px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.tl{position:relative;margin-left:8px;padding-left:20px;border-left:2px solid var(--line)}
+.tl .it{position:relative;padding:0 0 16px}
+.tl .it::before{content:"";position:absolute;left:-28px;top:3px;width:14px;height:14px;border-radius:14px;background:var(--card2);border:2px solid var(--line)}
+.tl .it.past::before{background:var(--ac2);border-color:var(--ac2)}
+.tl .it.now::before{background:var(--ac);border-color:var(--ac);box-shadow:0 0 0 4px rgba(61,220,151,.2)}
+.tl .it.surg::before{background:var(--rd);border-color:var(--rd)}
+.tl .it h4{font-size:15px}.tl .it .d{font-size:12px;color:var(--mu);font-weight:600;margin:2px 0 4px}
+.tl .it ul{margin:4px 0 0;padding-left:18px;font-size:13.5px}
+details{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:10px}
+details summary{cursor:pointer;font-weight:700}
+details ul{padding-left:18px;margin:8px 0 2px;font-size:13.5px}details li{margin-bottom:4px}
+.cbx{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed #1f2c3a;font-size:14px;cursor:pointer}
+.cbx small{display:block;color:var(--mu);font-size:12px}
+.hist{font-size:13px;border-bottom:1px solid var(--line);padding:8px 0}
+.hist:last-child{border-bottom:0}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:6px 7px;text-align:left;border-bottom:1px solid var(--line)}th{color:var(--mu);font-size:11px;text-transform:uppercase}td.num{text-align:right;font-variant-numeric:tabular-nums}
+.disc{font-size:12px;color:var(--mu);border:1px dashed var(--line);border-radius:12px;padding:10px 12px;margin:4px 0 14px}
+@media(max-width:760px){.g3{grid-template-columns:repeat(2,1fr)}.stat .v{font-size:23px}main{padding:10px}.card{padding:12px}}
+@media(min-width:900px){nav.tabs{position:sticky;top:57px;bottom:auto;max-width:1000px;margin:0 auto;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}body{padding-bottom:20px}nav.tabs button{flex-direction:row;font-size:13px;gap:6px}nav.tabs button span{font-size:16px}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="brand">Hernia Prehab &amp; Rehab<small>Inguinal hernia · build chest &amp; arms · lose fat · protect the repair</small></div>
+ <span id="syncpill" class="pill">☁︎</span>
+ <button class="btn sm" data-go="timeline">⚙︎ Settings</button>
+</header>
+<nav class="tabs" id="tabs">
+ <button data-t="home" class="on"><span>🏠</span>Home</button>
+ <button data-t="program"><span>📋</span>Program</button>
+ <button data-t="log"><span>🏋️</span>Log</button>
+ <button data-t="check"><span>🩺</span>Check-in<i class="dot" id="ckdot"></i></button>
+ <button data-t="food"><span>🥩</span>Nutrition</button>
+ <button data-t="timeline"><span>🗓️</span>Timeline</button>
+</nav>
+<main>
+ <section class="tab on" id="t-home"></section>
+ <section class="tab" id="t-program"></section>
+ <section class="tab" id="t-log"></section>
+ <section class="tab" id="t-check"></section>
+ <section class="tab" id="t-food"></section>
+ <section class="tab" id="t-timeline"></section>
+</main>
+<div id="toast"></div>
+<script>
+/* ================= state ================= */
+const KEY='hpr-dash-v1';
+const DEF={surgery:'2026-12-14',start:'2026-11-18',repair:'robolap',liftCap:10,v:2,
+ targets:{kcalCut:2400,kcalMaint:2850,protein:190,fiber:35,water:120,steps:10000},
+ log:[],checks:{},food:{},done:{},recov:{},sess:null,lastExport:null};
+let S=load();
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s){if(!s.v||s.v<2){if(s.liftCap==null||s.liftCap===15)s.liftCap=10;if(!s.repair||s.repair==='unknown'||s.repair==='lap')s.repair='robolap';s.v=2}}if(s)return Object.assign({},DEF,s,{targets:Object.assign({},DEF.targets,s.targets||{}),recov:s.recov||{}})}catch(e){}return JSON.parse(JSON.stringify(DEF))}
+function saveLocal(){localStorage.setItem(KEY,JSON.stringify(S))}
+function save(){saveLocal();if(typeof queueSync==='function')queueSync()}
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('show'),2200)}
+/* ================= dates (UTC day numbers, DST-proof) ================= */
+const dn=s=>{const[y,m,d]=s.split('-').map(Number);return Date.UTC(y,m-1,d)/864e5};
+const ds=n=>new Date(n*864e5).toISOString().slice(0,10);
+const urlToday=new URLSearchParams(location.search).get('today');
+function todayStr(){if(urlToday&&/^\d{4}-\d{2}-\d{2}$/.test(urlToday))return urlToday;const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+const TD=()=>dn(todayStr());
+const DOW=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const dowOf=n=>DOW[new Date(n*864e5).getUTCDay()];
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmt=n=>{const d=new Date(n*864e5);return['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getUTCDay()]+' '+MON[d.getUTCMonth()]+' '+d.getUTCDate()};
+const fmtS=n=>{const d=new Date(n*864e5);return MON[d.getUTCMonth()]+' '+d.getUTCDate()};
+const SD=()=>dn(S.surgery);
+const CAPL=' (per Eddie, confirm with surgeon)';
+const REPAIR={robolap:'Robotic-assisted laparoscopic',open:'Open',unknown:'Not confirmed'};
+
+/* ================= program content ================= */
+const X=(name,sets,reps,cue,kind)=>({name,sets,reps,cue:cue||'',kind:kind||'lift'});
+const C=(name,sets,reps,cue)=>X(name,sets,reps,cue,'core');
+const K=(name,reps,cue)=>X(name,1,reps,cue,'cardio');
+const BREATH='Exhale through the hard part of every rep. No breath-holding, no straining, no grinding reps.';
+const PLATE='Load plates one at a time: plate close to the body, hinge or squat with a long spine, neutral exhale as you lift. Never bend over and strain. Strip it the same way.';
+const HS=c=>c+' Plate-loaded: load carefully (see the plate rule).';
+const DIPCUE='Bodyweight or assisted only, never belt-weighted. Exhale on the way up, ribs down, don\'t bear down. Progression: assisted dip machine (or band) → less assistance each time you hit 12 on every set → slow negatives → full bodyweight reps. Log assistance as a negative number (e.g. -60) and bodyweight as 0.';
+const PUCUE='Bodyweight or assisted only, never belt-weighted. Dead-hang start, exhale as you pull, ribs down, no kipping, don\'t bear down. Progression: assisted pull-up machine (or band) → less assistance each time you hit 10 on every set → slow negatives → full bodyweight reps. Log assistance as a negative number (e.g. -70) and bodyweight as 0.';
+const BW=o=>Object.assign(o,{bw:1});
+const L=o=>Object.assign(o,{log:1});
+const WDB=(sets,reps)=>L(C('Weighted dead bug',sets,reps||'8 / side','Hold a light plate or a 10–15 lb kettlebell over your chest. Exhale as you reach, low back flat on the floor. Drop the weight (or go unweighted) if your belly domes or you feel groin pressure.'));
+const SUIT=(sets)=>L(C('Suitcase carry',sets,'30–40 yd / side','About 45–55 lb KB or DB in one hand (down from the 80 lb you were using; build back past 80 lb after week 6). Pick it up from a bench or rack, NEVER off the floor. Walk tall, don\'t lean, breathe steadily (no breath-holding). Set it back on the bench.'));
+const LMAR=(sets)=>L(C('Landmine anti-rotation press',sets,'8 / side','Half-kneeling or tall stance, moderate load. Press the bar out and hold 2 s; don\'t let it pull you around. Exhale on the press. Load plates carefully.'));
+const LMROT=(sets)=>L(C('Landmine controlled rotation',sets,'6–8 / side','Moderate load, arms long. Slow 3 s arc side to side, hips and ribs turn together. Nothing fast or explosive. Exhale through the turn.'));
+const PRE={
+ MON:{title:'Chest & Triceps · priority A',min:'60–70 min',items:[
+  K('Warm-up','5 min bike + 5 slow 90/90 breaths','Band pull-aparts ×15. Take your inhaler first if your plan calls for it.'),
+  X('Hammer Strength Incline Press',4,'8–12',HS('Main chest lift. Exhale as you press. Stop 1–2 reps before failure.')),
+  X('Hammer Strength Chest Press',3,'8–12',HS('Back on the pad. 2 s down, press up while exhaling.')),
+  BW(X('Dips (bodyweight / assisted)',3,'6–12',DIPCUE)),
+  X('Low-to-high cable fly',3,'12–15','Upper chest. Squeeze for 1 s at the top.'),
+  X('Pec deck',2,'12–15','Last set: optional drop set (pin down ~30% and go again).'),
+  X('Seated overhead cable triceps extension',3,'10–15','Long head of the triceps. Sit with back support.'),
+  X('Rope pushdown',3,'12–15','Elbows pinned. Breathe out as you push down.'),
+  WDB(3),
+  C('Pallof press',3,'10 / side','Resist rotation. Breathe normally the whole set.')]},
+ TUE:{title:'Back & Biceps · deep core',min:'60–70 min',items:[
+  K('Warm-up','5 min row or bike','Band pull-aparts, scap pulls, 2 easy assisted pull-up sets.'),
+  BW(X('Pull-ups (bodyweight / assisted)',3,'5–10',PUCUE)),
+  X('Hammer Strength Pulldown',3,'8–12',HS('Pull to the upper chest while exhaling.')),
+  X('Hammer Strength Iso-Lateral Row',3,'8–12',HS('Chest on the pad takes load off the trunk.')),
+  X('V-bar cable pulldown',3,'10–12','Close neutral grip. Lean back slightly, pull the V-bar to the upper chest, elbows to the ribs, exhale as you pull. Ribs down, no heaving.'),
+  X('Hammer Strength High Row',2,'10–12',HS('Elbows down and back, squeeze lats/mid-back.')),
+  X('Reverse pec deck',3,'12–15','Rear delts for shoulder balance.'),
+  X('Machine preacher curl',3,'10–15','Arm priority. Control the lowering.'),
+  X('Cable curl (straight bar)',2,'10–12','Full stretch at the bottom, no swinging.'),
+  X('Cable rope hammer curl',2,'12–15','Brachialis and forearms.'),
+  LMROT(2),
+  C('Side plank',3,'20–30 s / side','Start from the knees, then progress to full. Keep breathing; don\'t bear down.')]},
+ WED:{title:'Legs, hernia-smart · Zone 2',min:'55–65 min',items:[
+  K('Warm-up','5 min bike','Leg swings, bodyweight box squats to a high box.'),
+  X('Leg press',3,'12–15',HS('Moderate load only. Stop before your hips tuck under. Exhale on the way up. No max sets and no holding your breath at lockout.')),
+  X('Leg extension',3,'12–15','Quads with almost no trunk demand.'),
+  X('Seated leg curl',3,'10–15','Hamstrings. Hips stay down.'),
+  X('Supported split squat (bodyweight)',2,'10 / leg','Hold a rack. Bodyweight only, no dumbbells to carry. Skip it if your groin pulls.'),
+  X('Hip abduction machine',3,'12–15','Glutes. (Skip heavy adductor and Copenhagen work for now.)'),
+  X('Seated calf raise machine',3,'12–20','Pause in the stretch.'),
+  K('Zone 2: incline walk or bike','20–30 min','Pace where you can still talk. Nasal breathing if you can.'),
+  K('Core circuit','2–3 rounds, ~10–12 min','Do the four moves back to back, then the 1-minute breathing reset, then repeat. Smooth and controlled, never rushed.'),
+  WDB(1,'8 / side · per round'),
+  Object.assign(SUIT(1),{reps:'30–40 yd / side · per round'}),
+  Object.assign(LMAR(1),{reps:'8 / side · per round'}),
+  C('Side plank',1,'20–30 s / side · per round','Knees or full.'),
+  C('Breathing reset: 90/90 + TA exhale',1,'1 min between rounds','Lie on your back with feet on a bench. Long exhale until your lower belly gently draws in.')]},
+ THU:{title:'Shoulders & Arms · priority B',min:'55–65 min',items:[
+  K('Warm-up','5 min bike','Band external rotations ×15/side.'),
+  X('Hammer Strength Shoulder Press',3,'8–12',HS('Seated, back supported. No heavy standing overhead pressing for now.')),
+  X('Machine lateral raise',4,'12–20','Delt width. Pin-loaded machine, pause at the top.'),
+  X('Cable lateral raise',2,'15–20','Single arm, behind-the-body start.'),
+  X('Face pull',3,'12–15','External rotation at the top.'),
+  X('Cable bayesian curl',3,'12–15','Long-head stretch.'),
+  X('Single-arm cable triceps extension',3,'12–15','Each arm.'),
+  X('Cable EZ-bar curl',2,'10–12','Cable instead of a free bar, so nothing to pick up.'),
+  X('Seated dip machine',2,'10–15','Triceps. Selectorized seated machine, back on the pad.'),
+  C('Pallof press, half-kneeling',3,'10 / side','Glute of the down knee squeezed.'),
+  C('Dead bug with band pull-down',2,'8 / side','Band overhead adds anti-extension. Exhale as you reach.')]},
+ FRI:{title:'Upper B · chest, back & arms · intervals',min:'60–70 min',items:[
+  K('Warm-up','5 min bike','Push-ups to a bench ×10.'),
+  X('Hammer Strength Iso-Lateral Chest Press',3,'8–12',HS('One arm at a time or both. Leave 2 reps in the tank. No singles or max attempts.')),
+  BW(X('Dips (bodyweight / assisted)',2,'6–12',DIPCUE)),
+  X('Incline cable fly',3,'12–15','Stretch focus.'),
+  BW(X('Pull-ups (bodyweight / assisted)',2,'5–10',PUCUE)),
+  X('Single-arm cable row',2,'10–12 / side','Tall posture.'),
+  X('Straight-arm cable pullover',3,'12–15','Rope or V-bar, from a high pulley. Standing hip hinge or kneeling. Arms nearly straight, sweep down to the thighs with your lats. Ribs down, brace gently, exhale as you pull. Don\'t arch your low back and don\'t bear down.'),
+  X('Cable curl + rope pushdown superset',3,'12–15 each','Arm pump. Short rests.'),
+  K('Bike intervals (asthma-aware)','10 min easy → 6×30 s hard / 90 s easy → 5 min easy','Seated bike (no impact, no jumping). Warm air indoors. Stop if wheezing and use your rescue inhaler.'),
+  C('Side plank',2,'25–30 s / side','Full or knees.'),
+  SUIT(2)]},
+ SAT:{title:'Active recovery',min:'45–60 min',items:[
+  K('Easy walk or bike','45–60 min','Counts toward your step goal.'),
+  C('Mobility flow',1,'10 min','Gentle hip flexor stretch (no forcing the groin), thoracic rotations, cat-cow.'),
+  C('90/90 breathing',1,'2–3 min','Down-regulation.')]},
+ SUN:{title:'Rest',min:'—',items:[K('Walk','to hit your step goal','Meal prep for the week: protein and fiber.')]}
+};
+const RECOV_ITEM=()=>K('Recovery: red light 12 min + massage 10 min','daily · check off on Home','Keep red light and massage OFF the incision until your surgeon clears it. Massage legs, back, shoulders and arms instead.');
+const TAPER_NOTE='Taper: half the sets, RIR 4, about 70% of your normal weights. No legs except the leg extension and leg curl. Show up to surgery fresh, not sore.';
+const R0={title:'Days 0–7 · walk, breathe, heal',min:'all day',items:[
+ K('Short walks','5–10 min every 1–2 h while awake','Build toward 20–30 min total per day by days 5–7. Walking lowers clot and pneumonia risk.'),
+ C('Deep breathing',1,'10 slow breaths / hour','Use the incentive spirometer if you were given one. Keep the asthma controller on schedule.'),
+ C('Cough and sneeze splint',1,'every time','Hug a pillow against your belly when you cough or sneeze.'),
+ C('Gentle TA draw-in (lying)',3,'5 × 5 s exhales','Only if comfortable. No crunches, no sit-ups, no planks.'),
+ K('Lifting cap','nothing heavier than the cap','Laundry baskets, kids, groceries and gym bags count.'),RECOV_ITEM()]};
+const R1={
+ MON:{title:'Light upper · seated, within the lift cap',min:'30–40 min',items:[
+  K('Walk','30–45 min','Build steps 5k → 8k → 10k over weeks 1–4.'),
+  X('Band chest press (seated, back supported)',3,'15–20','Light. Easy pump. Nowhere near failure.'),
+  X('Band or light cable row (seated)',3,'15–20','Light tension only.'),
+  X('Light cable curl (seated)',3,'15–20','Light stack weight. Nothing to carry.'),
+  X('Light band pushdown',3,'15–20',''),
+  C('90/90 breathing + TA exhale',3,'5 breaths','This is your core work for now.'),
+  C('Heel slides',2,'8 / side','Lying. Low belly gently drawn in.')]},
+ WED:{title:'Walk · mobility · easy bike',min:'30–45 min',items:[
+  K('Walk or easy stationary bike','30–45 min','Bike from about week 2, only if your surgeon OKs it and the incision is comfortable.'),
+  C('Glute bridge (bodyweight)',2,'10','Week 2+, if pain-free.'),
+  C('Dead bug, heels down (unweighted)',2,'6 / side','Week 2–3+, if pain-free. Exhale, low back flat.')]},
+ FRI:{title:'Light upper B · seated, within the lift cap',min:'30–40 min',items:[
+  K('Walk','30–45 min',''),
+  X('Light machine lateral raise',3,'15–20','Lightest pins. Nothing to carry.'),
+  X('Band face pull',3,'15–20',''),
+  X('Light cable rope hammer curl',3,'15–20',''),
+  X('Band overhead triceps extension (seated)',3,'15–20',''),
+  C('Dead bug, arms only',2,'8 / side','Feet stay down. Exhale as you reach.')]},
+ DEFAULT:{title:'Walk + breathing',min:'20–45 min',items:[K('Walk','20–45 min','Steps count.'),C('90/90 breathing',1,'2–3 min','')]}
+};
+const R2={
+ MON:{title:'Graded return · Upper A',min:'45–55 min',items:[
+  X('Hammer Strength Incline Press',3,'12–15','Load = % shown below. RIR 4 → 3. Exhale on effort. Use 10s and 25s (or a pin-loaded machine), no handling 45 lb plates until week 6.'),
+  X('Hammer Strength Chest Press',2,'12–15',''),
+  X('Hammer Strength Pulldown',3,'12–15',''),
+  X('Hammer Strength Iso-Lateral Row',2,'12–15',''),
+  X('V-bar cable pulldown',2,'12–15','Light. Exhale on the pull, ribs down. Stop if you feel pulling at the repair.'),
+  X('Machine preacher curl',3,'12–15',''),
+  X('Rope pushdown',3,'12–15',''),
+  C('Dead bug (unweighted)',3,'8 / side','Full version, still unweighted. Weighted dead bugs come back at week 6+.'),
+  C('Side plank (knees)',2,'20 s / side','')]},
+ WED:{title:'Graded return · Legs light + core',min:'40–50 min',items:[
+  X('Leg extension',3,'12–15',''),
+  X('Seated leg curl',3,'12–15',''),
+  X('Leg press',2,'15','Week 5+: very light, short range, pain-free only. Small plates only.'),
+  X('Seated calf raise machine',3,'15',''),
+  C('Pallof press',3,'10 / side',''),
+  C('Side plank (knees → full)',2,'20–25 s / side',''),
+  K('Easy bike or incline walk','20 min','Zone 2.')]},
+ FRI:{title:'Graded return · Upper B',min:'45–55 min',items:[
+  X('Hammer Strength Shoulder Press',3,'12–15',''),
+  X('Machine lateral raise',3,'15',''),
+  X('Pec deck',3,'12–15',''),
+  X('Hammer Strength High Row',3,'12–15',''),
+  X('Cable bayesian curl',3,'12–15',''),
+  X('Seated overhead cable triceps extension',3,'12–15',''),
+  C('Front plank (knees → full)',2,'15–20 s','Stop if you feel pressure or a bulge at the incision.'),K('Not yet: dips, pull-ups, pullover, carries, landmine, weighted dead bugs','week 6+','Dips and pull-ups return at week 6+, assisted first, because they load the core and abdominal pressure heavily. Pullover, suitcase carries, landmine work and weighted dead bugs also return at week 6+, light.')]},
+ SAT:{title:'Walk or easy bike',min:'40–60 min',items:[K('Walk or bike','40–60 min',''),RECOV_ITEM()]},
+ DEFAULT:{title:'Walk + breathing',min:'30 min',items:[K('Walk','30+ min','')]}
+};
+/* ================= phases ================= */
+function phases(){const s=SD(),st=dn(S.start);return[
+ {id:'build',name:'Pre-op build',short:'Build',from:st-((new Date(st*864e5).getUTCDay()+6)%7),to:s-8,color:'var(--ac2)',
+  focus:'Chest and arm hypertrophy, fat loss, and deep-core skill. Hammer Strength machines and cables, so no heavy free weights to pick up or carry. Controlled breathing throughout.',
+  bullets:['5 lifting days: chest 2× (with dips), arms 3×, back 2× (with pull-ups), shoulders 1× (machine laterals), plus 1 hernia-smart leg day','Double progression: hit the top of the rep range on every set, then add the smallest increment','Week 1 RIR 3 → week 2 RIR 2 → week 3 RIR 1–2 (no failure on big presses)','Steps ~10k/day, 2 conditioning sessions, ~400–500 kcal deficit']},
+ {id:'peak',name:'Final normal days',short:'Final',from:s-7,to:s-6,color:'var(--ac2)',focus:'Last two normal sessions at RIR 2. Good pump, no PR attempts.',bullets:['Normal sessions at RIR 2, no PR attempts, no new exercises']},
+ {id:'taper',name:'Taper / deload',short:'Taper',from:s-5,to:s-1,color:'var(--am)',
+  focus:'Arrive fresh, unsore, and well fed. Half the sets at RIR 4, then walking only for the last 2 days.',
+  bullets:['Surgery −5 to −3 days: upper body only, half sets, RIR 4','Final 2 days: walks, breathing, mobility only','Eat at maintenance, keep protein high, prep the house (meals, stool softener, pillow, ice packs)','Follow anesthesia fasting and medication instructions exactly']},
+ {id:'surg',name:'Surgery · '+REPAIR[S.repair]+' inguinal hernia repair',short:'Surgery',from:s,to:s,color:'var(--rd)',focus:'Surgery day. Follow your discharge instructions.',bullets:['Bring your inhaler and tell anesthesia about all medications and peptides']},
+ {id:'r0',name:'Recovery · walk & breathe',short:'Wk 0–1',from:s+1,to:s+6,color:'var(--pu)',
+  focus:'Walk often, breathe deep, splint coughs, prevent constipation. No lifting over the cap.',bullets:['Walks every 1–2 h, building to 20–30 min/day','Deep breathing hourly; pillow-splint coughs and sneezes','Stool softener or fiber + water per surgeon, and don\'t strain','Lift cap: ≤'+S.liftCap+' lb'+CAPL,'Recovery: red light 12 min + massage 10 min daily, OFF the incision until cleared']},
+ {id:'r1',name:'Light duty',short:'Wk 1–4',from:s+7,to:s+27,color:'var(--pu)',
+  focus:'Light duty: walking volume, light seated pump work under the lift cap, gentle deep-core.',bullets:['Steps 5k → 10k','3 light upper sessions/week with bands and DBs under the cap, 15–20 reps, far from failure','Core: breathing, TA, heel slides, then bridges and heels-down dead bugs from week 2–3','No crunches, sit-ups, planks, leg press, running, or swimming until incisions heal','No dips or pull-ups (week 6+ only)','Red light + massage daily, still off the incision until cleared']},
+ {id:'r2',name:'Graded return',short:'Wk 4–6',from:s+28,to:s+41,color:'var(--ac)',
+  focus:'Machines at ~40–65% of your pre-op working weights, rising weekly if you\'re pain-free the next day.',bullets:['Week 4–5: ~40–50% of pre-op loads, RIR 4','Week 5–6: ~55–65%, RIR 3','Add planks, Pallof press, unweighted dead bugs, light leg press, light V-bar cable pulldown','Rule: if pain is above 3/10 or still there the next morning, go back one step','Small plates only (10s/25s), no handling 45s yet. Still no dips or pull-ups','Red light + massage daily, off the incision until cleared']},
+ {id:'r3',name:'Full strength rebuild',short:'Wk 6–8+',from:s+42,to:s+70,color:'var(--ac)',
+  focus:'Back on the pre-op split, ramping from ~70% to full loads by about week 8. Hammer Strength and cables first, heavy barbell last.',bullets:['Week 6–7: ~70–80%; week 7–8: ~85–90%; week 8+: ~90–100%','Dips & pull-ups return now: ASSISTED first (week 6–7), reducing assistance from week 8+ only if pain-free the next day. Never belt-weighted','Straight-arm cable pullover returns (light, ribs down)','Suitcase carries, landmine work and weighted dead bugs return light (after a week of unweighted dead bugs)','Heavy squats/deadlifts last (week 8+, exhale breathing, surgeon OK)','Red light + massage: on the incision only once your surgeon clears it','Long-term core plan 3×/week (see Program → Core)','Then move back to your main Training Dashboard']}
+]}
+function phaseOn(n){const st0=dn(S.start)-((new Date(dn(S.start)*864e5).getUTCDay()+6)%7);if(n<st0)return{id:'pre0',name:'Starts '+fmtS(dn(S.start)),short:'Soon',from:n,to:dn(S.start)-1,focus:'Program starts soon.',bullets:[]};const P=phases();for(const p of P)if(n>=p.from&&n<=p.to)return p;return Object.assign({},P[P.length-1],{id:'long',name:'Long-term · full training',short:'Long-term'})}
+function weekOfBuild(n){return Math.floor((n-dn(S.start)+ (new Date(dn(S.start)*864e5).getUTCDay()+6)%7)/7)+1}
+function rirFor(n){const p=phaseOn(n);if(p.id==='build'){const w=weekOfBuild(n);return w<=1?'RIR 3':w===2?'RIR 2':'RIR 1–2'}if(p.id==='peak')return'RIR 2';if(p.id==='taper')return'RIR 4 · taper';if(p.id==='r2')return n-SD()<35?'RIR 4':'RIR 3';if(p.id==='r3'||p.id==='long')return n-SD()<49?'RIR 3':'RIR 2';return'—'}
+function pctFor(n){const d=n-SD();if(d<28)return null;if(d<35)return[40,50];if(d<42)return[55,65];if(d<49)return[70,80];if(d<56)return[85,90];if(d<70)return[90,100];return null}
+/* session for a date */
+function sessionFor(n,dayOverride){const p=phaseOn(n),dow=dayOverride||dowOf(n);const cp=o=>JSON.parse(JSON.stringify(o));
+ if(p.id==='surg')return{title:'Surgery day',min:'—',items:[K('Rest. Follow your discharge instructions','—','Short walk to the bathroom/hall once allowed.')],phase:p};
+ if(p.id==='r0')return Object.assign(cp(R0),{phase:p});
+ const addR=o=>{if(!o.items.some(i=>/^Recovery:/.test(i.name)))o.items.push(RECOV_ITEM());return o};
+ if(p.id==='r1')return addR(Object.assign(cp(R1[dow]||R1.DEFAULT),{phase:p}));
+ if(p.id==='r2')return addR(Object.assign(cp(R2[dow]||R2.DEFAULT),{phase:p}));
+ let s=cp(PRE[dow]);s.phase=p;
+ if(p.id==='taper'){const d=SD()-n;if(d<=2){return{title:'Walk-only day · pre-op',min:'30–45 min',phase:p,items:[K('Easy walk','30–45 min',''),C('90/90 breathing',1,'3 min',''),C('Gentle mobility',1,'10 min','')]}}
+  s.title='Taper · '+s.title;s.note=TAPER_NOTE;s.items=s.items.filter(i=>!/Leg press|split squat|Bike intervals|abduction|calf|Zone 2|Suitcase|Landmine|Core circuit/i.test(i.name)).map(i=>i.kind==='lift'?Object.assign(i,{sets:Math.max(1,Math.ceil(i.sets/2))}):i)}
+ if(p.id==='build'&&weekOfBuild(n)>=3){s.items.forEach(i=>{if(['Hammer Strength Incline Press','Hammer Strength Iso-Lateral Chest Press','Machine preacher curl','Cable bayesian curl','Seated overhead cable triceps extension'].includes(i.name)){i.sets+=1;i.cue+=' (Week 3+: +1 set)'}})}
+ if(p.id==='r3'||p.id==='long'){if(p.id==='r3'){const wk8=n-SD()>=56;s.title='Rebuild · '+s.title;s.note='Use the % targets below. Breathe out on every rep. Hammer Strength and cables first. Load plates carefully.';s.items.forEach(i=>{if(!wk8){if(i.name==='Weighted dead bug')i.cue='Week 6–7: do 1 week unweighted first, then a light 5–10 lb plate. '+i.cue;if(i.name==='Suitcase carry'||/^Landmine/.test(i.name)){i.sets=1;i.cue='Week 6–7 return: LIGHT (about half your pre-op load), 1 easy set, only if pain-free the next day. '+i.cue}}if(i.name==='Straight-arm cable pullover'&&!wk8)i.cue='Week 6–7 return: light, 2 sets, '+i.cue;if(i.bw){i.sets=Math.min(i.sets,wk8?3:2);i.cue=(wk8?'Week 8+: cut the assistance week by week toward bodyweight if the repair feels normal the next day. ':'Week 6–7 return: ASSISTED ONLY: set the assist machine to about half your bodyweight (or use a heavy band), 2 easy sets, RIR 3+, exhale on effort. Skip it if you feel pulling at the repair. ')+'Never belt-weighted.'}});addR(s)}}
+ return s}
+/* best pre-op working weight */
+function preBest(name){let b=0;S.log.forEach(l=>{if(l.ex===name&&dn(l.date)<SD()&&+l.w>b)b=+l.w});return b}
+
+/* ================= red-flag logic ================= */
+const BULGE=['None','Appears with effort, goes back on its own','Stays out but pushes back in when I lie down','Out and WON\'T go back in'];
+function evalCheck(c,n){const red=[],amber=[];if(!c)return{red,amber,level:'none'};const post=n>=SD();
+ const b=+c.bulge||0,pain=c.pain==null?null:+c.pain,fev=c.temp!=null&&c.temp!==''&&+c.temp>=100.4;
+ if(!post){
+  if(b===3)red.push('Hernia bulge won\'t go back in (possible incarceration)');
+  if(c.firm)red.push('Bulge is firm, hard, or very tender');
+  if(c.color)red.push('Skin over the bulge is red, purple, or dark (possible strangulation)');
+  if(c.severe)red.push('Sudden severe groin pain');
+  if(c.vomit&&(b>0||(pain||0)>=4))red.push('Nausea/vomiting with groin pain or bulge');
+  if(c.noGas)red.push('Can\'t pass gas or stool');
+  if(fev&&(b>0||(pain||0)>=4))red.push('Fever with groin pain');
+  if(b===2)amber.push('Bulge stays out until you lie down. Tell your surgeon\'s office this week and drop leg-day loads');
+  if(b===1)amber.push('Bulge with effort. Lighten that exercise and focus on exhaling');
+  if(c.bigger)amber.push('Bulge is bigger than usual. Call your surgeon\'s office');
+ }else{
+  if(fev&&+c.temp>=101)red.push('Fever ≥101°F after surgery');
+  if(c.wound)red.push('Incision has spreading redness, pus, opening, or bleeding through the dressing');
+  if(c.noPee)red.push('Can\'t urinate / very little urine (urinary retention)');
+  if(c.calf)red.push('Calf pain or swelling (possible clot)');
+  if(c.chest)red.push('Chest pain or shortness of breath not relieved by your inhaler');
+  if(c.vomit)red.push('Persistent vomiting');
+  if(c.severe)red.push('Severe or worsening pain not controlled by your meds');
+  if(b===3||c.firm)red.push('New hard bulge at the repair site');
+  if(fev&&+c.temp<101)amber.push('Low-grade fever. Recheck in a few hours and call if it rises');
+  if(c.scrotal)amber.push('Scrotal or groin swelling/bruising increasing. Call the surgeon\'s office (some is normal early)');
+  if(c.noGas)amber.push('No bowel movement / can\'t pass gas. Call your surgeon if it\'s been more than 3 days or you\'re bloated');
+  if(b===1||b===2)amber.push('A bulge or lump at the repair. Could be normal swelling (seroma), but mention it to your surgeon');
+ }
+ if(pain!=null&&pain>=7&&!red.length)red.push('Pain '+pain+'/10');
+ else if(pain!=null&&pain>=4)amber.push('Pain '+pain+'/10. Skip or lighten anything that provokes it; if it lasts into the next day, go back one step');
+ if(c.linger)amber.push('Pain lingering into the next day. Back off one step');
+ if(c.strain)amber.push('Straining on the toilet. Add fiber and water; ask about a stool softener (straining loads the hernia/repair)');
+ if(c.inhaler!=null&&c.inhaler!==''&&+c.inhaler>=3)amber.push('Rescue inhaler '+c.inhaler+'× today. Skip intervals and keep cardio easy; coughing fits load the groin');
+ return{red,amber,level:red.length?'red':amber.length?'amber':'ok'}}
+function latestCheck(){const ks=Object.keys(S.checks).sort();if(!ks.length)return null;const k=ks[ks.length-1];return{date:k,c:S.checks[k],e:evalCheck(S.checks[k],dn(k))}}
+function redBanner(e,date){if(!e||e.level!=='red')return'';const post=dn(date)>=SD();return'<div class="banner red redalert"><b class="big">🚨 Red flag: get seen now</b>'+e.red.map(esc).join('<br>')+'<br><br><b>'+(post?'Call your surgeon\'s after-hours line now. If you can\'t reach them, or you have chest pain or trouble breathing, call 911 or go to the ER.':'Go to the ER or call 911. A hernia that is stuck, hard, discolored, or comes with vomiting can be strangulated, which is a surgical emergency.')+'</b><br><span class="note">Logged '+fmt(dn(date))+'. Don\'t train until you\'ve been cleared.</span></div>'}
+
+
+/* ================= recovery tracker ================= */
+const RECOV=[{k:'rl',l:'Red light therapy',min:12,ic:'🔴'},{k:'ms',l:'Massage',min:10,ic:'💆'}];
+function recDone(d,k){const r=(S.recov||{})[d];return!!(r&&r[k])}
+function recStreak(k){let n=TD();const both=d=>k?recDone(d,k):RECOV.every(x=>recDone(d,x.k));if(!both(ds(n)))n--;let c=0;while(both(ds(n))){c++;n--}return c}
+function recBest(){const ks=Object.keys(S.recov||{}).filter(d=>RECOV.every(x=>recDone(d,x.k))).sort();let b=0,c=0,prev=null;ks.forEach(d=>{c=(prev!=null&&dn(d)===prev+1)?c+1:1;b=Math.max(b,c);prev=dn(d)});return b}
+function recoveryCard(){const t=todayStr(),n=TD(),post=n>=SD();const st=recStreak(),best=recBest();
+ const wk=[...Array(7)].map((_,i)=>n-6+i);
+ return'<div class="card" id="recovcard"><div class="row sp"><h2 style="margin:0">Recovery today</h2><span class="pill '+(st?'ok':'')+'">🔥 '+st+'-day streak</span></div>'+
+ (post?'<div class="banner" style="margin:8px 0 0">Keep red light and massage <b>off the incision</b> until your surgeon clears it. Do the legs, back, shoulders and arms instead.</div>':'')+
+ '<div class="grid g2" style="margin-top:10px">'+RECOV.map(x=>{const d=recDone(t,x.k);return'<button class="btn'+(d?' primary':'')+'" data-rec="'+x.k+'" style="min-height:58px;text-align:left">'+(d?'✓ ':'')+x.ic+' '+x.l+'<br><small style="font-weight:600;opacity:.8">'+x.min+' min'+(d?' · done':' · tap when done')+'</small></button>'}).join('')+'</div>'+
+ '<div class="row sp note" style="margin-top:10px"><span>Last 7 days</span><span>Best streak '+best+' d</span></div><div class="row" style="gap:5px;margin-top:4px;flex-wrap:nowrap">'+wk.map(d=>{const a=recDone(ds(d),'rl'),b=recDone(ds(d),'ms');const c=a&&b?'var(--ac)':a||b?'var(--am)':'var(--bg2)';return'<div style="flex:1;text-align:center"><div style="height:22px;border-radius:6px;background:'+c+';border:1px solid var(--line)"></div><div class="note" style="font-size:10.5px;margin-top:2px">'+dowOf(d).slice(0,2)+'</div></div>'}).join('')+'</div>'+
+ '<div class="note" style="margin-top:6px">Streak counts days with both done. Red light '+recStreak('rl')+' d · massage '+recStreak('ms')+' d.</div></div>'}
+function toggleRec(k){const t=todayStr();S.recov=S.recov||{};const r=S.recov[t]=S.recov[t]||{};r[k]=!r[k];r._u=Date.now();save();RENDER[cur]();const x=RECOV.find(y=>y.k===k);toast(r[k]?x.l+' ✓ · streak '+recStreak()+' d':x.l+' unchecked')}
+
+/* ================= render: home ================= */
+function renderHome(){const n=TD(),s=SD(),p=phaseOn(n),d=s-n;const L=latestCheck();
+ let cd;if(d>0)cd='<div class="cd"><span class="n">'+d+'</span><b>day'+(d===1?'':'s')+' to surgery</b></div><div class="note">'+fmt(s)+' · '+(Math.floor(d/7))+' wk '+(d%7)+' d · '+REPAIR[S.repair]+'</div>';
+ else if(d===0)cd='<div class="cd"><span class="n">0</span><b>Surgery day</b></div><div class="note">Follow your discharge instructions. You\'ve got this.</div>';
+ else{const pd=-d;cd='<div class="cd"><span class="n">'+pd+'</span><b>days post-op</b></div><div class="note">Week '+Math.floor(pd/7)+' · day '+(pd%7)+' · surgery was '+fmt(s)+'</div>'}
+ const sess=sessionFor(n);const done=S.done[todayStr()];
+ const ft=foodToday(),T=targetsFor(n);
+ const ckToday=S.checks[todayStr()];
+ $('#t-home').innerHTML=(L&&L.e.level==='red'&&(n-dn(L.date))<=1?redBanner(L.e,L.date):'')+
+ '<div class="grid g2" style="margin-bottom:14px">'+
+  '<div class="stat"><div class="l">'+(d>0?'Countdown':'Recovery')+'</div>'+cd+'</div>'+
+  '<div class="stat" id="phasecard"><div class="l">Current phase</div><div class="v" style="font-size:20px">'+esc(p.name)+'</div><div class="s">'+esc(rirFor(n))+(p.id==='r0'||p.id==='r1'?' · <b class="warn">Lift cap ≤'+S.liftCap+' lb</b> <span class="note">per Eddie, confirm with surgeon</span>':'')+'</div><div class="bar"><i style="width:'+Math.min(100,Math.max(4,Math.round((n-p.from+1)/(p.to-p.from+1)*100)))+'%"></i></div></div>'+
+ '</div>'+
+ '<div class="card day"><div class="row sp"><h2 style="margin:0">Today · '+fmt(n)+'</h2><span class="pill blue">'+esc(p.short)+'</span></div><div style="margin-top:6px;font-weight:700">'+esc(sess.title)+'</div><div class="note">'+esc(sess.min)+' · '+sess.items.length+' items'+(done?' · <b class="pos">done ✓</b>':'')+'</div>'+
+ '<div class="row" style="margin-top:10px"><button class="btn primary" data-start="'+dowOf(n)+'">'+(done?'Log more':'Start session')+'</button><button class="btn" data-go="program">Program</button>'+(ckToday?'':'<button class="btn" data-go="check">Daily check-in</button>')+'</div></div>'+
+ '<div class="card"><div class="row sp"><h2 style="margin:0">Symptom status</h2>'+(L?'<span class="pill '+(L.e.level==='red'?'bad':L.e.level==='amber'?'warn':'ok')+'">'+(L.e.level==='red'?'RED FLAG':L.e.level==='amber'?L.e.amber.length+' caution':'clear')+'</span>':'<span class="pill">no check-ins</span>')+'</div>'+
+ (L?'<div class="note" style="margin-top:6px">Last check-in '+fmt(dn(L.date))+': pain '+(L.c.pain??'–')+'/10 · bulge: '+esc(BULGE[+L.c.bulge||0])+'</div>'+(L.e.amber.length?'<ul class="note" style="margin:6px 0 0;padding-left:18px">'+L.e.amber.map(a=>'<li>'+esc(a)+'</li>').join('')+'</ul>':''):'<div class="note" style="margin-top:6px">Do a quick check-in after training or each evening. It flags anything that needs your surgeon or the ER.</div>')+'</div>'+
+ recoveryCard()+
+ '<div class="card"><div class="row sp"><h2 style="margin:0">Nutrition today</h2><button class="btn sm" data-go="food">Log food</button></div>'+
+  ring('Protein',ft.protein,T.protein,'g')+ring('Calories',ft.kcal,T.kcal,'kcal')+ring('Steps',ft.steps,T.steps,'')+
+  '<div class="note" style="margin-top:6px">'+esc(T.why)+'</div></div>'+
+ backupNudge()+stopCard()+
+ '<div class="disc">⚕️ This plan is general, evidence-informed guidance, not medical advice. Confirm it with your surgeon. <b>Your surgeon\'s instructions and discharge sheet override everything here.</b></div>';
+ $('#ckdot').classList.toggle('show',!!(L&&L.e.level==='red'))}
+function backupNudge(){if(syncCfg()&&SY.st==='ok')return'';const has=S.log.length||Object.keys(S.checks).length||Object.keys(S.food).length||Object.keys(S.recov||{}).length;if(!has)return'';const age=S.lastExport?TD()-dn(S.lastExport):999;if(age<7)return'';return'<div class="banner">💾 Cloud sync isn\'t confirmed, so your data may only be on this phone. '+(S.lastExport?'Last backup '+age+' days ago.':'No backup yet.')+' <a href="#" data-go="timeline">Export a backup in Settings</a>.</div>'}
+function ring(l,v,t,u){const pct=t?Math.min(100,Math.round((v||0)/t*100)):0;return'<div style="margin-top:8px"><div class="row sp note"><b style="color:var(--tx)">'+l+'</b><span>'+(v?Math.round(v).toLocaleString():0)+' / '+Math.round(t).toLocaleString()+' '+u+'</span></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>'}
+function stopCard(){const post=TD()>=SD();return'<div class="card" style="border-color:#4a2a30"><h2>🛑 Stop signs</h2>'+(post?
+ '<div class="note"><b class="neg">Call 911 or go to the ER:</b> chest pain or shortness of breath not relieved by your inhaler, or calf pain/swelling with breathlessness.<br><b class="neg">Call your surgeon now:</b> fever ≥101°F, spreading redness, pus, or opening at the incision, you can\'t urinate, persistent vomiting, or pain your meds don\'t control.<br><b class="warn">Back off a step:</b> pain over 3/10 during a session, pain that\'s still there the next morning, or a pulling feeling at the repair.</div>':
+ '<div class="note"><b class="neg">ER now (possible strangulation):</b> the bulge won\'t go back in, it\'s hard or very tender, the skin turns red, purple, or dark, there\'s sudden severe pain, or there\'s nausea/vomiting or you can\'t pass gas or stool.<br><b class="warn">Stop the exercise and modify:</b> the bulge pops out during a set, sharp or pulling groin pain, pain over 3/10, or pain that\'s still there the next day. Tell your surgeon if the bulge is getting bigger or harder to push back.</div>')+'</div>'}
+
+/* ================= program ================= */
+let progDay=null,progRef=null;
+function renderProgram(){const n=progRef??TD(),p=phaseOn(n);if(!progDay)progDay=dowOf(TD());
+ const order=['MON','TUE','WED','THU','FRI','SAT','SUN'];
+ const mon=n-((new Date(n*864e5).getUTCDay()+6)%7);
+ const dayN=mon+order.indexOf(progDay);
+ const sess=sessionFor(dayN,progDay);const pct=pctFor(dayN);
+ const views=[['Pre-op',dn(S.start)+7],['Taper',SD()-4],['Wk 0–1',SD()+2],['Wk 1–4',SD()+9],['Wk 4–6',SD()+30],['Wk 6–8',SD()+44]];
+ $('#t-program').innerHTML='<div class="card"><div class="row sp"><h2 style="margin:0">'+esc(phaseOn(dayN).name)+'</h2><span class="pill blue">'+esc(rirFor(dayN))+'</span></div><div class="note" style="margin-top:4px">'+esc(phaseOn(dayN).focus)+'</div>'+
+ '<div class="note" style="margin-top:8px">Week of '+fmtS(mon)+(progRef!=null?' · <a href="#" id="pnow">back to this week</a>':'')+'</div>'+
+ '<div class="seg" style="margin-top:8px" id="pview">'+views.map(v=>'<button data-v="'+v[1]+'" class="'+(phaseOn(v[1]).id===phaseOn(dayN).id?'on':'')+'">'+v[0]+'</button>').join('')+'</div>'+
+ '<div class="seg" style="margin-top:8px" id="pday">'+order.map(d=>'<button data-d="'+d+'" class="'+(d===progDay?'on':'')+(mon+order.indexOf(d)===TD()?' today':'')+'">'+d.slice(0,3)+'</button>').join('')+'</div></div>'+
+ '<div class="card day"><div class="row sp"><h3 style="margin:0">'+fmt(dayN)+' · '+esc(sess.title)+'</h3><span class="note">'+esc(sess.min)+'</span></div>'+(sess.note?'<div class="banner info" style="margin:8px 0 0">'+esc(sess.note)+'</div>':'')+
+ ((phaseOn(dayN).id==='r0'||phaseOn(dayN).id==='r1')?'<div class="banner" style="margin:8px 0 0">Lift cap: ≤'+S.liftCap+' lb total'+CAPL+', including kids, groceries, and laundry.</div>':'')+
+ '<ul>'+sess.items.map(i=>{const b=i.kind==='lift'?preBest(i.name):0;return'<li class="'+i.kind+'"><div class="row sp" style="flex-wrap:nowrap;align-items:flex-start"><span class="nm"><b>'+esc(i.name)+'</b></span><span class="rx">'+(i.kind==='cardio'?esc(i.reps):i.sets+' × '+esc(i.reps))+'</span></div>'+(i.cue?'<span class="cue">'+esc(i.cue)+'</span>':'')+(pct&&i.kind==='lift'&&!i.bw?'<span class="cue" style="color:var(--ac)">Target '+pct[0]+'–'+pct[1]+'% of pre-op'+(b?': ≈ '+Math.round(b*pct[0]/100)+'–'+Math.round(b*pct[1]/100)+' lb (pre-op best '+b+' lb)':' (no pre-op log yet)')+'</span>':'')+'</li>'}).join('')+'</ul>'+
+ (sess.items.some(i=>i.kind==='lift'||i.log)?'<div class="row" style="margin-top:10px"><button class="btn primary" data-start="'+progDay+'" data-date="'+ds(dayN)+'">Log this session</button></div>':'')+'</div>'+
+ guideCards()}
+function guideCards(){return'<div class="card"><h2>Why it\'s built this way</h2>'+
+ '<details open><summary>Breathing rule (the #1 thing)</summary><ul><li>'+BREATH+'</li><li>Brace lightly by exhaling and gently drawing the low belly in. Don\'t bear down or hold a big Valsalva breath. Breath-holding and max efforts produce the biggest pressure spikes inside the abdomen.</li><li>Leave 1–3 reps in reserve. Grinding reps automatically trigger breath-holding.</li><li><b>Plate rule:</b> '+PLATE+'</li></ul></details>'+
+ '<details><summary>Dips &amp; pull-ups: rules and return date</summary><ul><li>Bodyweight or assisted only, never belt-weighted. Exhale through the effort and don\'t bear down.</li><li>Progression: assisted machine or band → reduce assistance when every set hits the top of the range → slow negatives → full bodyweight.</li><li><b>After surgery:</b> none in weeks 0–6. They put a heavy load on the core and on abdominal pressure (hanging and pressing your full bodyweight). Week 6+ = assisted only, 2 easy sets. Week 8+ = cut the assistance gradually if the repair feels normal the next day. This lines up with your surgeon\'s 6-week full-strength mark and the ~6-week heavy-lifting advice often given after open repair; your robotic lap repair may allow sooner, but only with surgeon OK.</li></ul></details>'+
+ '<details><summary>What\'s avoided before surgery, and why</summary><ul><li><b>Heavy barbell squats, deadlifts, good mornings, and heavy standing overhead press:</b> high axial load plus a big brace means the largest pressure spikes in the abdomen.</li><li><b>Max singles, PR attempts, and belt-weighted dips/pull-ups:</b> force breath-holding. Dips and pull-ups stay in, but bodyweight or assisted only, with an exhale on every rep.</li><li><b>Picking up and carrying heavy dumbbells or barbells:</b> lifting from the floor and walking with load spikes pressure. Hammer Strength machines and cables replace them. '+PLATE+'</li><li><b>Sit-ups, crunches, hanging leg raises, V-ups, toes-to-bar, and ab-wheel rollouts:</b> high pressure plus strain on the lower abdominal wall.</li><li><b>Jumping, box jumps, sprints, heavy sled, tire flips:</b> impact and bracing spikes.</li><li><b>Kettlebell swings:</b> the fast hip snap with a hard brace creates sudden, repeated pressure spikes right at the groin.</li><li><b>Heavy carries (heavy farmer\'s walks, heavy suitcase carries):</b> they demand a long, maximal brace that turns into breath-holding. Carries stay light to moderate and are picked up from a bench, never the floor.</li><li><b>Fast or heavy rotation (med-ball throws, heavy landmine 180s, weighted Russian twists):</b> speed plus load means sharp pressure and shear across the lower abdominal wall. Landmine work stays slow, controlled and moderate.</li><li><b>Heavy adductor and Copenhagen work:</b> loads the groin right where the hernia is.</li><li>Your doctor gave no limits, and watchful-waiting research shows activity doesn\'t usually cause emergencies. But this gets you all the muscle-building stimulus with less provocation. If an exercise pops the bulge out, swap it.</li></ul></details>'+
+ '<details><summary>Core plan: prevention, not six-pack work</summary><ul><li>Pre-op: learn the deep-core "exhale and draw-in" (transverse abdominis) and build anti-extension (weighted dead bug), anti-rotation (Pallof, landmine anti-rotation), controlled rotation (slow landmine arcs), and lateral strength (side plank, suitcase carry). These train the trunk without high pressure. No bird dogs.</li><li>Post-op: breathing and TA → heel slides and bridges → unweighted dead bugs → planks and Pallof → week 6+: weighted dead bugs, light suitcase carries and landmine → full lifting.</li><li>Long-term (3×/week, 10 min): weighted dead bug, Pallof or landmine anti-rotation, side plank, suitcase carry, and controlled landmine rotation. Plus keep body fat trending down, don\'t smoke, and keep asthma controlled. Chronic coughing and straining raise pressure on the repair.</li><li>Honest note: recurrence depends mostly on the repair itself and on tissue/collagen factors. Core training helps you control pressure and lift well; it isn\'t a guarantee.</li></ul></details>'+
+ '<details><summary>Asthma-aware conditioning</summary><ul><li>Warm up gradually for 10–15 min before intervals. Use a pre-exercise inhaler only if your doctor prescribed one that way.</li><li>Seated bike intervals indoors (warm, humid air) instead of running or outdoor cold-air sprints.</li><li>Zone 2 with nasal breathing. Stop and use your rescue inhaler if you\'re wheezing.</li><li>Coughing fits load the groin, so log inhaler use in the check-in. 3 or more rescue uses in a day flags an easy day.</li></ul></details>'+
+ '<details><summary>Progression &amp; missed days</summary><ul><li>Double progression: once every set hits the top of the range at the target RIR, add the smallest jump next time.</li><li>Missed a day (travel, holidays)? Shift the week. Don\'t double up. Hotel gym? Swap machines for DBs and cables with the same rep ranges.</li></ul></details>'+
+ '</div>'}
+
+/* ================= log ================= */
+function startSession(day,date){date=date||todayStr();const n=dn(date);const sess=sessionFor(n,day);
+ S.sess={date,day,title:sess.title,items:sess.items.filter(i=>i.kind==='lift'||i.log).map(i=>({name:i.name,sets:i.sets,reps:i.reps,bw:i.bw||0}))};save();go('log')}
+function lastFor(name){const l=S.log.filter(x=>x.ex===name).sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:0);if(!l.length)return null;const d=l[0].date;return{date:d,sets:l.filter(x=>x.date===d)}}
+function renderLog(){const s=S.sess;let h='';
+ if(s){const n=dn(s.date),pct=pctFor(n);h+='<div class="card"><div class="row sp"><h2 style="margin:0">'+esc(s.title)+'</h2><span class="pill blue">'+fmt(n)+'</span></div><div class="note">'+esc(rirFor(n))+' · '+BREATH+'</div>'+((phaseOn(n).id==='r0'||phaseOn(n).id==='r1')?'<div class="banner" style="margin:8px 0 0">Lift cap ≤'+S.liftCap+' lb'+CAPL+'</div>':'')+'</div>'+
+ s.items.map((it,ei)=>{const L=lastFor(it.name),b=preBest(it.name);const logged=S.log.filter(x=>x.date===s.date&&x.ex===it.name);
+  let sug='';if(L)sug='Last ('+fmtS(dn(L.date))+'): '+L.sets.map(x=>x.w+'×'+x.r).join(', ');
+  if(it.bw)sug+=(sug?' · ':'')+'<b>Bodyweight/assisted: log assistance as negative (e.g. -60), bodyweight = 0. Hit the top of the range on every set → less assistance.</b>';
+  else if(pct&&b)sug+=(sug?' · ':'')+'Target <b>'+Math.round(b*pct[0]/100)+'–'+Math.round(b*pct[1]/100)+' lb</b>';
+  else if(L&&!pct){const lo=+String(it.reps).split(/[–-]/)[0],hi=+String(it.reps).split(/[–-]/).pop().split(' ')[0];const allTop=L.sets.length>=it.sets&&L.sets.every(x=>+x.r>=hi);sug+=allTop?' · <b>Hit the top of the range: add the smallest jump</b>':' · <b>Same weight, beat the reps</b>'}
+  let rows='';for(let k=1;k<=it.sets;k++){const lg=logged.find(x=>+x.set===k);const pv=L&&L.sets.find(x=>+x.set===k);rows+='<div class="srow'+(lg?' logged':'')+'" data-e="'+ei+'" data-s="'+k+'"><span class="sn">'+k+'</span><input type="number" inputmode="decimal" placeholder="'+(pv?pv.w:(it.bw?'0 / -assist':'lb'))+'" value="'+(lg?lg.w:'')+'" aria-label="weight"><input type="number" inputmode="numeric" placeholder="'+(pv?pv.r:'reps')+'" value="'+(lg?lg.r:'')+'" aria-label="reps"><button class="btn" data-logset>'+(lg?'✓':'✓')+'</button></div>'}
+  return'<div class="ex"><div class="row sp"><h4>'+esc(it.name)+'</h4><span class="note">'+it.sets+' × '+esc(it.reps)+'</span></div>'+(sug?'<div class="sug">'+sug+'</div>':'')+rows+'</div>'}).join('')+
+ '<div class="card"><label class="f">Any hernia symptoms during this session?<select id="sesssym"><option value="0">None</option><option value="1">Bulge popped out on an exercise (I swapped it)</option><option value="2">Pulling or ache, pain under 4/10</option><option value="3">Sharp pain or pain 4+/10</option></select></label><div class="row" style="margin-top:10px"><button class="btn primary" id="finish">Finish session</button><button class="btn danger" id="discard">Close</button></div></div>'}
+ else h+='<div class="card"><h2>Workout log</h2><div class="note">Start a session from Home or Program. Every set saves on this device as you tap ✓.</div><div class="row" style="margin-top:10px"><button class="btn primary" data-start="'+dowOf(TD())+'">Start today\'s session</button></div></div>';
+ const dates=[...new Set(S.log.map(x=>x.date))].sort().reverse();
+ h+='<div class="card"><div class="row sp"><h2 style="margin:0">History</h2><div class="row"><button class="btn sm" id="csv">Export CSV</button></div></div>'+(dates.length?dates.slice(0,30).map(d=>{const L=S.log.filter(x=>x.date===d);const ex=[...new Set(L.map(x=>x.ex))];return'<div class="hist"><div class="row sp"><b>'+fmt(dn(d))+'</b><span class="note">'+L.length+' sets · '+Math.round(L.reduce((a,x)=>a+(+x.w||0)*(+x.r||0),0)).toLocaleString()+' lb vol</span></div><div class="note">'+ex.map(e=>esc(e)+' '+L.filter(x=>x.ex===e).map(x=>x.w+'×'+x.r).join(', ')).join(' · ')+'</div></div>'}).join(''):'<div class="note" style="margin-top:8px">No sets logged yet.</div>')+'</div>';
+ $('#t-log').innerHTML=h}
+function logSet(row){const s=S.sess,it=s.items[+row.dataset.e],k=+row.dataset.s;const [wi,ri]=row.querySelectorAll('input');const w=wi.value||wi.placeholder,r=ri.value||ri.placeholder;
+ if(!(+r>0)||isNaN(+w)){toast('Enter weight and reps');return}
+ S.log=S.log.filter(x=>!(x.date===s.date&&x.ex===it.name&&+x.set===k));
+ S.log.push({date:s.date,day:s.day,ex:it.name,set:k,w:+w,r:+r,phase:phaseOn(dn(s.date)).id,u:Date.now()});save();
+ row.classList.add('logged');wi.value=w;ri.value=r;
+ const n=dn(s.date);if((phaseOn(n).id==='r0'||phaseOn(n).id==='r1')&&+w>S.liftCap)toast('⚠️ '+w+' lb is over your '+S.liftCap+' lb lift cap');else toast('Set '+k+' saved')}
+function csv(){const rows=[['Person','Day','Exercise','Week','Set','Weight(lbs)','Reps','Date','Phase']];S.log.slice().sort((a,b)=>a.date<b.date?-1:1).forEach(l=>rows.push(['me',l.day,l.ex,weekOfBuild(dn(l.date)),l.set,l.w,l.r,l.date,l.phase]));
+ dl('hernia-log.csv',rows.map(r=>r.map(x=>/[",\n]/.test(String(x))?'"'+String(x).replace(/"/g,'""')+'"':x).join(',')).join('\n'),'text/csv')}
+function dl(name,txt,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type}));a.download=name;a.click()}
+
+/* ================= check-in ================= */
+function renderCheck(){const t=todayStr(),n=TD(),post=n>=SD(),c=S.checks[t]||{};const L=latestCheck();
+ const cb=(k,l,sub)=>'<label class="cbx"><input type="checkbox" name="'+k+'" '+(c[k]?'checked':'')+'><span>'+l+(sub?'<small>'+sub+'</small>':'')+'</span></label>';
+ $('#t-check').innerHTML=(L&&L.e.level==='red'?redBanner(L.e,L.date):'')+
+ '<div class="card"><div class="row sp"><h2 style="margin:0">Daily check-in</h2><span class="pill '+(post?'blue':'')+'">'+(post?'post-op':'pre-op')+' · '+fmtS(n)+'</span></div><div class="note" style="margin:4px 0 10px">About 30 seconds. Red flags show an ER/surgeon alert right away.</div>'+
+ '<form id="ckform" class="form">'+
+ '<label class="f">Groin pain now (0–10)<input type="number" name="pain" min="0" max="10" value="'+(c.pain??'')+'"></label>'+
+ '<label class="f">Rescue inhaler uses today<input type="number" name="inhaler" min="0" max="20" value="'+(c.inhaler??'')+'"></label>'+
+ '<label class="f wide">'+(post?'Lump or bulge at the repair site':'Hernia bulge today')+'<select name="bulge">'+BULGE.map((b,i)=>'<option value="'+i+'" '+((+c.bulge||0)===i?'selected':'')+'>'+b+'</option>').join('')+'</select></label>'+
+ '<label class="f">Temperature °F <span class="mut">(if checked)</span><input type="number" step="0.1" name="temp" value="'+(c.temp??'')+'"></label>'+
+ '<label class="f">Sleep (h)<input type="number" step="0.5" name="sleep" value="'+(c.sleep??'')+'"></label>'+
+ '<div class="wide">'+
+ cb('firm',post?'Hard lump at the repair':'Bulge is firm, hard, or very tender')+
+ (post?'':cb('color','Skin over the bulge is red, purple, or dark'))+
+ cb('severe','Sudden or severe pain'+(post?' not controlled by meds':''))+
+ cb('vomit','Nausea or vomiting')+
+ cb('noGas',post?'No bowel movement or can\'t pass gas':'Can\'t pass gas or stool')+
+ (post?cb('wound','Incision: spreading redness, pus, opening, or soaking bleeding')+cb('noPee','Trouble urinating or very little urine')+cb('calf','Calf pain or swelling')+cb('chest','Chest pain or shortness of breath not relieved by inhaler')+cb('scrotal','Scrotal/groin swelling or bruising getting worse'):cb('bigger','Bulge is bigger than usual or harder to push back'))+
+ cb('linger','Pain from yesterday\'s training is still there')+
+ cb('strain','Straining on the toilet','Straining spikes abdominal pressure. Appetite medications and post-op pain meds both constipate.')+
+ '</div>'+
+ '<label class="f wide">Notes<input name="note" value="'+esc(c.note||'')+'" placeholder="what provoked it, what helped"></label>'+
+ '<button class="btn primary wide" type="submit">Save check-in</button></form><div id="ckresult" style="margin-top:10px"></div></div>'+
+ '<div class="card"><h2>History</h2>'+(Object.keys(S.checks).length?Object.keys(S.checks).sort().reverse().slice(0,21).map(k=>{const x=S.checks[k],e=evalCheck(x,dn(k));return'<div class="hist"><div class="row sp"><b>'+fmt(dn(k))+'</b><span class="pill '+(e.level==='red'?'bad':e.level==='amber'?'warn':'ok')+'">'+(e.level==='red'?'red flag':e.level==='amber'?e.amber.length+' caution':'clear')+'</span></div><div class="note">Pain '+(x.pain??'–')+'/10 · bulge: '+esc(BULGE[+x.bulge||0])+' · inhaler '+(x.inhaler??'–')+'×'+(x.note?' · '+esc(x.note):'')+'</div></div>'}).join(''):'<div class="note">No check-ins yet.</div>')+'</div>'+recoveryCard()+stopCard()}
+function saveCheck(f){const fd=new FormData(f),c={};['pain','inhaler','temp','sleep'].forEach(k=>{const v=fd.get(k);if(v!==''&&v!=null)c[k]=+v});c.bulge=+fd.get('bulge');c.note=fd.get('note')||'';
+ ['firm','color','severe','vomit','noGas','wound','noPee','calf','chest','scrotal','bigger','linger','strain'].forEach(k=>{if(fd.get(k))c[k]=true});
+ c._u=Date.now();S.checks[todayStr()]=c;save();const e=evalCheck(c,TD());renderCheck();
+ $('#ckresult').innerHTML=e.level==='red'?'':e.level==='amber'?'<div class="banner">⚠️ '+e.amber.map(esc).join('<br>⚠️ ')+'</div>':'<div class="banner ok">✓ All clear. Train as planned.</div>';
+ if(e.level==='red'){window.scrollTo(0,0)}renderHome();toast(e.level==='red'?'🚨 Red flag logged':'Check-in saved')}
+
+/* ================= nutrition ================= */
+function targetsFor(n){const p=phaseOn(n).id,T=S.targets;const heal=['taper','surg','r0','r1'].includes(p);
+ const steps=p==='r0'?3000:p==='r1'?Math.min(T.steps,5000+Math.floor((n-SD()-7)/7)*1700):p==='taper'||p==='surg'?8000:T.steps;
+ return{kcal:heal?T.kcalMaint:p==='r2'?Math.round((T.kcalCut+T.kcalMaint)/2):T.kcalCut,protein:T.protein,fiber:T.fiber,water:T.water,steps:Math.max(2000,steps),
+ why:heal?'Healing window: eat near maintenance. Dieting hard now slows tissue repair. Keep protein high, fiber and water up, and avoid constipation.':p==='r2'?'Graded return: small deficit, protein high.':'Fat-loss phase: ~400–500 kcal deficit, ~1 g protein per lb of goal weight, protein at every meal. With a suppressed appetite the risk is under-eating protein, not overeating.'}}
+function foodToday(){return S.food[todayStr()]||{}}
+function renderFood(){const t=todayStr(),n=TD(),f=foodToday(),T=targetsFor(n);
+ const days=[...Array(7)].map((_,i)=>S.food[ds(n-i)]).filter(Boolean);const av=k=>{const v=days.map(d=>d[k]).filter(x=>x!=null&&x!=='');return v.length?Math.round(v.reduce((a,b)=>a+ +b,0)/v.length):null};
+ const W=Object.keys(S.food).sort().filter(k=>S.food[k].bw).map(k=>[dn(k),+S.food[k].bw]).slice(-30);
+ $('#t-food').innerHTML='<div class="card"><div class="row sp"><h2 style="margin:0">Nutrition &amp; fat loss</h2><span class="pill blue">'+esc(phaseOn(n).short)+'</span></div><div class="note" style="margin-top:4px">'+esc(T.why)+'</div>'+
+ ring('Protein',f.protein,T.protein,'g')+ring('Calories',f.kcal,T.kcal,'kcal')+ring('Fiber',f.fiber,T.fiber,'g')+ring('Water',f.water,T.water,'oz')+ring('Steps',f.steps,T.steps,'')+'</div>'+
+ '<div class="card"><h3>Log today · '+fmtS(n)+'</h3><form id="foodform" class="form">'+
+ [['bw','Body weight (lb)','0.1'],['kcal','Calories','10'],['protein','Protein (g)','1'],['fiber','Fiber (g)','1'],['water','Water (oz)','1'],['steps','Steps','100']].map(x=>'<label class="f">'+x[1]+'<input type="number" step="'+x[2]+'" name="'+x[0]+'" value="'+(f[x[0]]??'')+'"></label>').join('')+
+ '<button class="btn primary wide" type="submit">Save</button></form></div>'+
+ '<div class="grid g2" style="margin-bottom:14px"><div class="stat"><div class="l">7-day avg protein</div><div class="v">'+(av('protein')??'–')+'<small>g</small></div><div class="s">target '+T.protein+' g</div></div><div class="stat"><div class="l">7-day avg kcal</div><div class="v">'+(av('kcal')?av('kcal').toLocaleString():'–')+'</div><div class="s">target '+T.kcal.toLocaleString()+'</div></div><div class="stat"><div class="l">7-day avg steps</div><div class="v">'+(av('steps')?av('steps').toLocaleString():'–')+'</div><div class="s">target '+T.steps.toLocaleString()+'</div></div><div class="stat"><div class="l">Weight trend</div><div class="v">'+(W.length?W[W.length-1][1]:'–')+'<small>lb</small></div><div class="s">'+(W.length>1?((W[W.length-1][1]-W[0][1])>0?'+':'')+(W[W.length-1][1]-W[0][1]).toFixed(1)+' lb since '+fmtS(W[0][0]):'log weight to see trend')+'</div></div></div>'+
+ (W.length>1?'<div class="card"><h3>Weight</h3>'+spark(W)+'</div>':'')+
+ '<div class="card"><h3>Targets</h3><form id="tgtform" class="form">'+[['kcalCut','Fat-loss kcal'],['kcalMaint','Maintenance kcal'],['protein','Protein g'],['fiber','Fiber g'],['water','Water oz'],['steps','Steps']].map(x=>'<label class="f">'+x[1]+'<input type="number" name="'+x[0]+'" value="'+S.targets[x[0]]+'"></label>').join('')+'<button class="btn wide" type="submit">Update targets</button></form>'+
+ '<details><summary>Fat-loss &amp; healing playbook</summary><ul><li><b>Pre-op (now to ~Dec 8):</b> ~400–500 kcal under maintenance, aiming for about 0.5–1% of body weight per week. Protein ~190 g/day (1 g per lb of goal weight) split over 4 meals. Carbs around training.</li><li><b>Last 5 days pre-op and weeks 0–4:</b> eat at maintenance. Protein stays ~190 g. Healing needs energy and protein.</li><li><b>Fiber 30–38 g + water ~120 oz:</b> constipation is the enemy of a fresh repair. Appetite medications and opioid pain meds both slow the gut. Ask your surgeon about a stool softener.</li><li><b>Weeks 4–6:</b> small deficit; then back to the full fat-loss plan.</li><li>Limit alcohol around surgery; it impairs healing and sleep.</li></ul></details></div>'}
+function spark(W){const w=340,h=110,xs=W.map(p=>p[0]),ys=W.map(p=>p[1]);const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys)-1,y1=Math.max(...ys)+1;const X=x=>10+(x-x0)/((x1-x0)||1)*(w-20),Y=y=>h-10-(y-y0)/((y1-y0)||1)*(h-20);
+ return'<svg viewBox="0 0 '+w+' '+h+'" width="100%" height="'+h+'"><polyline fill="none" stroke="#3ddc97" stroke-width="2.5" points="'+W.map(p=>X(p[0])+','+Y(p[1])).join(' ')+'"/>'+W.map(p=>'<circle cx="'+X(p[0])+'" cy="'+Y(p[1])+'" r="3" fill="#5b8cff"/>').join('')+'<text x="10" y="12" fill="#8fa0b2" font-size="11">'+y1.toFixed(0)+'</text><text x="10" y="'+(h-1)+'" fill="#8fa0b2" font-size="11">'+y0.toFixed(0)+'</text></svg>'}
+
+/* ================= timeline + settings ================= */
+function renderTimeline(){const n=TD(),s=SD();const P=phases();
+ $('#t-timeline').innerHTML=syncBox()+'<div class="card"><h2>Phase timeline</h2><div class="note" style="margin-bottom:4px"><b style="color:var(--tx)">Repair: '+REPAIR[S.repair]+' inguinal hernia repair</b></div><div class="note" style="margin-bottom:12px">Program start '+fmt(dn(S.start))+' → surgery '+fmt(s)+' → week 8 post-op '+fmt(s+56)+'</div><div class="tl">'+
+ P.map(p=>{const st=n>p.to?'past':n>=p.from&&n<=p.to?'now':'';return'<div class="it '+st+(p.id==='surg'?' surg':'')+'"><h4>'+esc(p.name)+(st==='now'?' <span class="pill ok">now</span>':'')+'</h4><div class="d">'+(p.from===p.to?fmt(p.from):fmt(p.from)+' – '+fmt(p.to))+(p.from>=s&&p.id!=='surg'?' · post-op days '+(p.from-s)+'–'+(p.to-s):'')+'</div><div class="note">'+esc(p.focus)+'</div><ul>'+p.bullets.map(b=>'<li>'+esc(b)+'</li>').join('')+'</ul></div>'}).join('')+'</div>'+
+ '<div class="banner info" style="margin:6px 0 0"><b>Your repair is robotic-assisted laparoscopic.</b> Laparoscopic/robotic repairs usually recover faster than open ones. Published advice often allows heavy lifting from about 2 weeks after lap repair, versus up to about 6 weeks after open, and international guidelines say normal activity can resume once comfortable. This plan still follows your surgeon\'s more conservative 4-week light duty / 6-week full-strength timeline. <b>Their discharge instructions override everything.</b></div></div>'+
+ '<div class="card"><h2>Ask your surgeon</h2><ul style="padding-left:18px;margin:0;font-size:14px">'+QS.map(q=>'<li style="margin-bottom:6px">'+esc(q)+'</li>').join('')+'</ul></div>'+
+ '<div class="card" id="settings"><h2>Settings</h2><form id="setform" class="form">'+
+ '<label class="f">Surgery date<input type="date" name="surgery" value="'+S.surgery+'"></label>'+
+ '<label class="f">Program start<input type="date" name="start" value="'+S.start+'"></label>'+
+ '<label class="f">Repair type<select name="repair">'+[['robolap','Robotic-assisted laparoscopic'],['open','Open'],['unknown','Not confirmed']].map(o=>'<option value="'+o[0]+'" '+(S.repair===o[0]?'selected':'')+'>'+o[1]+'</option>').join('')+'</select></label>'+
+ '<label class="f">Lift cap, weeks 0–4 (lb) <span class="mut">per Eddie, confirm with surgeon</span><input type="number" name="liftCap" value="'+S.liftCap+'"></label>'+
+ '<button class="btn primary wide" type="submit">Save settings</button></form>'+
+ '<div class="row" style="margin-top:12px"><button class="btn sm" id="exjson">Export backup (JSON)</button><label class="btn sm" style="display:inline-flex;align-items:center">Import backup<input type="file" id="imjson" accept="application/json" style="display:none"></label><button class="btn sm" id="csv2">Export log CSV</button><button class="btn sm danger" id="reset">Reset all data</button></div>'+
+ '<div class="banner" style="margin:10px 0 0" id="backupnote"><b>Extra safety copy.</b> Your log also syncs to the cloud backup above. A file backup is a second copy: tap <b>Export backup</b> now and then and keep the file (Files app, iCloud or Drive). <b>Import backup</b> restores it. Last backup: <b>'+(S.lastExport?fmt(dn(S.lastExport)):'never')+'</b>.</div></div>'+
+ '<div class="disc">⚕️ General, evidence-informed guidance (HerniaSurge international groin hernia guidelines, convalescence reviews, multisociety GLP-1 perioperative guidance). It is not medical advice. Confirm with your surgeon. Their instructions override this plan.</div>'}
+const QS=['Will you use mesh, and is it one side or both (will you check the other side during the robotic repair)?','I believe my lifting limit is 10 lb. Is that right, and exactly how many pounds can I lift in weeks 0–2, 2–4, and 4–6? What are my 4-week "light duty" rules for the gym?','When can I return to assisted dips and pull-ups? (The plan says week 6+, assisted first.) And when can red light therapy and massage go on or near the incisions?','Until Dec 14, is there anything you want me to avoid lifting? Is my plan (machines, no heavy squats/deadlifts, no max lifts) OK?','When can I do stationary bike, incline walking, planks, leg press, and heavy squats/deadlifts again?','My weekly medication: continue, hold, or switch to a liquid diet the day before? (Multisociety guidance on GLP-1-type drugs says most people continue, but anesthesia decides.)','Which of my medications and supplements does anesthesia need to know about, and should any be paused around surgery?','My asthma: should I bring my inhaler and use my controller the morning of surgery? How do I protect the repair when I cough?','Which stool softener or laxative should I take, and starting when?','When can I drive, shower and swim, and go back to work ?','What does normal swelling, bruising, or a seroma look like, versus a call-us-now problem?'];
+
+
+/* ================= cloud sync (encrypted, textdb.dev) ================= */
+const SKEY='hpr-sync';let SY={st:'off',at:null,err:''};let syT=null,syBusy=false,syDirty=false;
+function syncCfg(){const h=location.hash.match(/k=([0-9a-f-]{36})\.([A-Za-z0-9_-]{43})/);if(h){localStorage.setItem(SKEY,h[1]+'.'+h[2]);return{id:h[1],key:h[2]}}const v=localStorage.getItem(SKEY);if(v&&/^[0-9a-f-]{36}\.[A-Za-z0-9_-]{43}$/.test(v)){const[a,b]=v.split('.');return{id:a,key:b}}return null}
+const b64u=a=>btoa(String.fromCharCode(...new Uint8Array(a))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const ub64=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return Uint8Array.from(atob(s),c=>c.charCodeAt(0))};
+async function ckey(k){return crypto.subtle.importKey('raw',ub64(k),'AES-GCM',false,['encrypt','decrypt'])}
+async function enc(obj,k){const iv=crypto.getRandomValues(new Uint8Array(12));const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},await ckey(k),new TextEncoder().encode(JSON.stringify(obj)));return JSON.stringify({v:1,iv:b64u(iv),ct:b64u(ct)})}
+async function dec(txt,k){const o=JSON.parse(txt);const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:ub64(o.iv)},await ckey(k),ub64(o.ct));return JSON.parse(new TextDecoder().decode(pt))}
+const SYURL=id=>'https://textdb.dev/api/data/'+id;
+function cloudCopy(){const o=JSON.parse(JSON.stringify(S));delete o.sess;return o}
+function newer(a,b){return((b&&(b.u||b._u))||0)>((a&&(a.u||a._u))||0)?b:a}
+function mergeState(L,R){const M=JSON.parse(JSON.stringify(L));if(!R)return M;
+ const key=x=>x.date+'|'+x.ex+'|'+x.set;const m=new Map();(L.log||[]).forEach(x=>m.set(key(x),x));(R.log||[]).forEach(x=>{const k=key(x);m.set(k,m.has(k)?newer(m.get(k),x):x)});M.log=[...m.values()];
+ ['checks','food','recov'].forEach(f=>{M[f]=Object.assign({},L[f]||{});Object.entries(R[f]||{}).forEach(([d,v])=>{M[f][d]=M[f][d]?newer(M[f][d],v):v})});
+ M.done=Object.assign({},R.done||{},L.done||{});
+ if((R._su||0)>(L._su||0)){['surgery','start','repair','liftCap','targets','lastExport','_su','v'].forEach(k=>{if(R[k]!==undefined)M[k]=R[k]})}
+ M.sess=L.sess||null;return M}
+function setSy(st,err){SY.st=st;SY.err=err||'';if(st==='ok')SY.at=new Date();const el=document.getElementById('syncpill');if(el)el.outerHTML=syncPill();const sb=document.getElementById('syncbox');if(sb&&cur==='timeline')sb.outerHTML=syncBox()}
+function syncPill(){const t=SY.at?SY.at.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}):'';const m={ok:['ok','☁︎ Saved '+t],busy:['blue','☁︎ Saving…'],offline:['warn','☁︎ Offline: on phone, will retry'],off:['bad','☁︎ Cloud sync off'],error:['bad','☁︎ Sync error']}[SY.st]||['','☁︎'];return'<button class="pill '+m[0]+'" id="syncpill" data-go="timeline" style="cursor:pointer;font-family:inherit">'+m[1]+'</button>'}
+async function syncNow(){const c=syncCfg();if(!c){setSy('off');return false}if(syBusy){syDirty=true;return false}syBusy=true;syDirty=false;setSy('busy');
+ try{const r=await fetch(SYURL(c.id),{cache:'no-store'});if(!r.ok)throw new Error('GET '+r.status);const txt=(await r.text()).trim();
+  let R=null;if(txt&&txt.startsWith('{')){R=await dec(txt,c.key)}
+  const before=JSON.stringify(cloudCopy());const M=mergeState(S,R);const changed=JSON.stringify(Object.assign({},M,{sess:undefined}))!==JSON.stringify(Object.assign({},S,{sess:undefined}));
+  S=M;saveLocal();
+  const body=await enc(cloudCopy(),c.key);const w=await fetch(SYURL(c.id),{method:'POST',headers:{'Content-Type':'text/plain'},body});if(!w.ok)throw new Error('POST '+w.status);
+  localStorage.setItem('hpr-lastsync',String(Date.now()));syBusy=false;setSy('ok');
+  if(changed&&!(cur==='log'&&S.sess)&&!(document.activeElement&&/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)))RENDER[cur]();
+  if(syDirty)queueSync(300);return true}
+ catch(e){syBusy=false;setSy(navigator.onLine===false||e instanceof TypeError?'offline':'error',String(e&&e.message||e));localStorage.setItem('hpr-dirty','1');return false}}
+async function pushOnly(){const c=syncCfg();if(!c)return;try{await fetch(SYURL(c.id),{method:'POST',headers:{'Content-Type':'text/plain'},body:await enc(cloudCopy(),c.key)});setSy('ok')}catch(e){setSy('offline')}}
+function queueSync(ms){localStorage.setItem('hpr-dirty','1');clearTimeout(syT);syT=setTimeout(()=>syncNow().then(ok=>{if(ok)localStorage.removeItem('hpr-dirty')}),ms==null?1200:ms)}
+function syncBox(){const c=syncCfg();return'<div class="card" id="syncbox"><div class="row sp"><h2 style="margin:0">Cloud backup</h2>'+syncPill()+'</div>'+
+ (c?'<div class="note" style="margin-top:6px">Every set, check-in, recovery tick and food entry saves on this phone first, then syncs (encrypted) to your private cloud record, so Chief can read it and your history comes back on any device. Offline? It saves on the phone and syncs when you\'re back online.'+(SY.err?'<br><span class="neg">Last error: '+esc(SY.err)+'</span>':'')+'</div><div class="row" style="margin-top:10px"><button class="btn sm primary" id="syncnow">Sync now</button><button class="btn sm" id="copylink">Copy my private link</button></div><div class="note" style="margin-top:6px">Keep your private link secret: anyone with it can read and change your log. Open it on a new phone to load your history.</div>':
+ '<div class="banner" style="margin:8px 0 0">Cloud sync is off on this device. Open your private link (the one Chief sent, ending in <b>#k=…</b>) or paste it here.</div><div class="row"><input id="pastelink" placeholder="Paste private link"><button class="btn sm primary" id="savelink">Connect</button></div>')+'</div>'}
+
+/* ================= nav + events ================= */
+const RENDER={home:renderHome,program:renderProgram,log:renderLog,check:renderCheck,food:renderFood,timeline:renderTimeline};
+let cur='home';
+function go(t){cur=t;$$('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));$$('.tab').forEach(s=>s.classList.toggle('on',s.id==='t-'+t));RENDER[t]();window.scrollTo(0,0)}
+document.addEventListener('click',e=>{const b=e.target.closest('button,a');if(!b)return;
+ if(b.dataset.t)return go(b.dataset.t);if(b.dataset.go)return go(b.dataset.go);
+ if(b.dataset.rec)return toggleRec(b.dataset.rec);
+ if(b.id==='syncnow'){syncNow().then(ok=>toast(ok?'Synced ☁︎':'Sync failed, saved on phone'));return}
+ if(b.id==='copylink'){const c=syncCfg();const u=location.origin+location.pathname+'#k='+c.id+'.'+c.key;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('Private link copied'),()=>prompt('Copy your private link',u));return}
+ if(b.id==='savelink'){const v=($('#pastelink')||{}).value||'';const m=v.match(/k=([0-9a-f-]{36})\.([A-Za-z0-9_-]{43})/);if(!m){toast('That link has no #k= key');return}localStorage.setItem(SKEY,m[1]+'.'+m[2]);syncNow().then(()=>{toast('Connected ☁︎');RENDER[cur]()});return}
+ if(b.dataset.start)return startSession(b.dataset.start,b.dataset.date);
+ if(b.dataset.d){progDay=b.dataset.d;return renderProgram()}
+ if(b.dataset.v){progRef=+b.dataset.v;progDay=dowOf(progRef)==='SUN'?'MON':dowOf(progRef);return renderProgram()}
+ if(b.id==='pnow'){e.preventDefault();progRef=null;progDay=dowOf(TD());return renderProgram()}
+ if(b.hasAttribute('data-logset'))return logSet(b.closest('.srow'));
+ if(b.id==='finish'){const sym=+$('#sesssym').value;S.done[S.sess.date]=true;const d=S.sess.date;S.sess=null;
+  if(sym){const c=S.checks[d]||{};c._u=Date.now();if(sym===1)c.bulge=Math.max(+c.bulge||0,1);if(sym>=2)c.pain=Math.max(+c.pain||0,sym===2?3:5);S.checks[d]=c}
+  save();toast(sym>=3?'Saved. Sharp pain: do a check-in':'Session saved 💪');return sym>=3?go('check'):go('home')}
+ if(b.id==='discard'){S.sess=null;save();return renderLog()}
+ if(b.id==='csv'||b.id==='csv2')return csv();
+ if(b.id==='exjson'){S.lastExport=todayStr();S._su=Date.now();save();return dl('hernia-dashboard-backup-'+todayStr()+'.json',JSON.stringify(S,null,1),'application/json')}
+ if(b.id==='reset'){if(confirm('Erase ALL data on this phone AND in the cloud backup? This cannot be undone.')){localStorage.removeItem(KEY);S=load();S._su=Date.now();saveLocal();pushOnly().then(()=>toast('All data erased'));go('home')}}
+});
+document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,fd=new FormData(f);
+ if(f.id==='ckform')return saveCheck(f);
+ if(f.id==='foodform'){const o={};for(const[k,v]of fd)if(v!=='')o[k]=+v;o._u=Date.now();S.food[todayStr()]=o;save();renderFood();return toast('Saved')}
+ if(f.id==='tgtform'){for(const[k,v]of fd)if(v!=='')S.targets[k]=+v;S._su=Date.now();save();renderFood();return toast('Targets updated')}
+ if(f.id==='setform'){S.surgery=fd.get('surgery')||S.surgery;S.start=fd.get('start')||S.start;S.repair=fd.get('repair');S.liftCap=+fd.get('liftCap')||10;S._su=Date.now();save();renderTimeline();return toast('Settings saved')}
+});
+document.addEventListener('change',e=>{if(e.target.id==='imjson'){const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);S=Object.assign({},DEF,o,{targets:Object.assign({},DEF.targets,o.targets||{})});save();toast('Backup imported');go('home')}catch(x){toast('Not a valid backup')}};r.readAsText(e.target.files[0])}});
+go('home');setSy(syncCfg()?'busy':'off');syncNow();
+window.addEventListener('online',()=>syncNow());document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syncNow()});setInterval(()=>{if(localStorage.getItem('hpr-dirty'))syncNow().then(ok=>{if(ok)localStorage.removeItem('hpr-dirty')})},60000);
+</script>
+</body>
+</html>
